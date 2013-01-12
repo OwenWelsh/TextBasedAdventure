@@ -148,7 +148,7 @@ status TownHallLobby::processCommand(string input, Player &PC)
 			display("When the dust settles, you find a sack of gold.\n");
 			TreasuryChestSearched = true;
 			PC.addToInventory(SACKOFGOLD);
-			description = "The lobby of the abandoned town hall.  An old treasury chest lies openned and empty in the corner.  ";
+			description = "The lobby of the abandoned town hall.  An old treasury chest lies opened and empty in the corner.  ";
 		}
 	} else
 		return ERROR;

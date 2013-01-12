@@ -25,4 +25,4 @@ Game.o: Menu.h Game.h Game.cpp
 Main.o: Game.h Main.cpp
 
 clean:
-	rm run *.o *~ *.h.gch
+	-rm run *.o *~ *.h.gch
