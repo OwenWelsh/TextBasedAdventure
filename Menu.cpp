@@ -49,7 +49,7 @@ void Menu::inventoryMenu()
 	string selectionString;
 	const string selections = " 1. See all items.\n 2. Examine item.\n 3. Remove item.\n 0. Return to main menu.\n";
 	
-	cout << "\nInvetory:\n" << PC.inventoryToString();
+	cout << "\nInventory:\n" << PC.inventoryToString();
 	if (! PC.emptyInventory())
 		cout << '\n';
 
@@ -58,7 +58,7 @@ void Menu::inventoryMenu()
 		selectionNum = getSelection();
 		switch (selectionNum) {
 			case 1:
-				cout << "\nInvetory:\n" << PC.inventoryToString();
+				cout << "\nInventory:\n" << PC.inventoryToString();
 				break;
 			case 2:
 				display("Which item do you want to examine?\n");
