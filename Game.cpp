@@ -125,7 +125,7 @@ status Game::saveGame(string &filename)
 				if (teststring == "start_save_file") {
 					
 					stringstream tempstrstr;
-					tempstrstr << "\n\"" << filename << "\" already exists as a save file. Would you like to override it?\n 1. Yes\n 0. No\n";
+					tempstrstr << "\n\"" << filename << "\" already exists as a save file. Would you like to overwrite it?\n 1. Yes\n 0. No\n";
 					display(tempstrstr.str());
 					
 					int selection = getSelection();
@@ -139,7 +139,7 @@ status Game::saveGame(string &filename)
 						return ERROR;
 					}
 				} else {
-					display("\nThat file already exists, and it's not a save file, so it can't be overwritten. No data saved.\n");
+					display("\nThat file already exists, but it's not a save file, so it can't be overwritten. No data saved.\n");
 					filename = "";
 					return ERROR;
 				}
