@@ -147,7 +147,7 @@ status Game::saveGame(string &filename)
 						return ERROR;
 					}
 				} else {
-					display("\nThat file already exists, and it's not a save file, so it can't be overwritten. No data saved.\n");
+					display("\nThat file already exists, but it's not a save file, so it can't be overwritten. No data saved.\n");
 					filename = "";
 					return ERROR;
 				}
