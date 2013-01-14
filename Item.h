@@ -16,8 +16,7 @@ public:
 	bool isUnique() const {return unique;}
 };
 
-#define LOCKPICK Item("Lockpick", "A standard lockpick.  It looks pretty brittle.")
-#define SACKOFGOLD Item("Sack of gold", "A small burlap sack containing a modest amount of gold coins.", true)
+#define RUSTYSWORD Item("Rusty sword", "A worn sword from your more adventurous days.  It's unimpressive, but it'll do the job.", true)
 #define ERRORITEM Item("Error Item", "If you got this item, something in the code went wrong.")
 
 #endif

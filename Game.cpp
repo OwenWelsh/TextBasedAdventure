@@ -1,14 +1,22 @@
 #include "Game.h"
 #include "Menu.h"
 
+#define LMCASE(AREA, class) \
+case AREA: return new class(PC);
+
 Location* Game::locationMaker(Area input)
 {
 	switch (input) {
-		case TOWNCENTER:			return new TownCenter;
-		case TOWNHALL:				return new TownHall;
-		case TOWNHALLLOBBY:			return new TownHallLobby;
-		case THIEFSHOUSE:			return new ThiefsHouse;
-		case THIEFSHOUSEINTERIOR:	return new ThiefsHouseInterior;
+/*		case ELFFORMYHOUSEINTERIOR:	return new ElfforMyHouseInterior;
+		case ELFFORMYHOUSE:			return new ElfforMyHouse;
+		case ELFFORTOWNGATE:		return new ElfforTownGate;
+		case ELFFORTAVERN:			return new ElfforTavern;
+		case ELFFORTAVERNINTERIOR:	return new ElfforTavernInterior; */
+		LMCASE(ELFFORMYHOUSEINTERIOR, ElfforMyHouseInterior)
+		LMCASE(ELFFORMYHOUSE, ElfforMyHouse)
+		LMCASE(ELFFORTOWNGATE, ElfforTownGate)
+		LMCASE(ELFFORTAVERN, ElfforTavern)
+		LMCASE(ELFFORTAVERNINTERIOR, ElfforTavernInterior)
 		default:
 			cout << "Error: locationMaker() was given an invalid location and didn't return anything. It is very likely that the program will crash if you do anything other than quit right now.\n";
 			break;
@@ -74,7 +82,7 @@ void Game::run()
 
 #define SAVEDATABODY(file) \
 	file << "start_save_file\n"; \
-	file << UtilitiesOptions::saveData() << PC.saveData() << Menu::saveData() << Location::saveLocationData(); \
+	file << UtilitiesOptions::saveData() << PC.saveData() << Menu::saveData() << Location::saveLocationData() << ElfforRegion::saveRegionData();\
 \
 	Location *temp; \
 	for (int i = ((int) AREASTARTMARKER) + 1; i < ((int) AREAENDMARKER); i++) { \
@@ -182,6 +190,8 @@ status Game::saveGame(string &filename)
 	Menu::loadData(input.str()); \
 	GETDATAFORLOAD \
 	Location::loadLocationData(input.str()); \
+	GETDATAFORLOAD \
+	ElfforRegion::loadRegionData(input.str()); \
 	\
 	int i = ((int) AREASTARTMARKER) + 1; \
 	Location *tempLocation; \
@@ -189,7 +199,7 @@ status Game::saveGame(string &filename)
 	input.str(""); \
 	getline(file, tempString); \
 	input << tempString << '\n'; \
-	while ((input.str() != "end_of_save_file") && (i < (int) AREAENDMARKER)) { \
+	while ((tempString != "end_of_save_file") && (i < (int) AREAENDMARKER)) { \
 		while (tempString[0] != ENDMARKER) { \
 			getline(file, tempString); \
 			input << tempString << '\n'; \
@@ -229,16 +239,16 @@ void Game::playGame(string filename)
 	output += '\n';
 	display(output);
 	
-	if(Menu::getDisplayDescription())
-		location->displayDescription();
-	
 	string input;
 	int savedOnLastTurn = 1;
+	
+	if(Menu::getDisplayDescription())
+		location->displayDescription();
 	
 	while (true) {
 		if (Menu::getDisplayActions()) {
 			cout << '\n';
-			location->displayActions(PC);
+			location->displayActions();
 		}
 		
 		cout << "\nWhat will you do?\n";
@@ -262,7 +272,7 @@ void Game::playGame(string filename)
 			if (quitIt) {
 				if (savedOnLastTurn <= 0)
 					cout << '\n';
-				display("And thus your adventure comes to a close for the day.\n");
+				display("And thus your adventure comes to an end for the day.\n");
 				return;
 			}
 		} else if (input == "menu") {
@@ -272,9 +282,11 @@ void Game::playGame(string filename)
 			if (saveGame(filename) == OK)
 				savedOnLastTurn = 2;
 		} else {
-			location->getCommand(input, PC);
-			if (PC.isDead())
-				break; // Each deadly action should have its own output, so there's no need to define one for here.
+			location->getCommand(input);
+			if ((PC.isDead()) || (PC.getCurrentLocation() == TERMINATE)) {
+				enterToContinue(); // Each deadly action should have its own output, so there's no need to define one for here.
+				break;
+			}
 			if (location->getArea() != PC.getCurrentLocation()) {
 				delete location;
 				location = locationMaker(PC.getCurrentLocation());

@@ -8,8 +8,13 @@ Player::Player(Area currentLocationIn)
 
 void Player::addToInventory(Item input, uint quantity)
 {
-	for (uint i = 0; i < quantity; i++)
-		Inventory.insert(pair<string, Item> (input.getName(), input));
+	if (input.isUnique()) {
+		if (! isInInventory(input))
+			Inventory.insert(pair<string, Item> (input.getName(), input));
+	} else {
+		for (uint i = 0; i < quantity; i++)
+			Inventory.insert(pair<string, Item> (input.getName(), input));
+	}
 }
 
 Item Player::getItem(string name) const

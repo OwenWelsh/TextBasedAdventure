@@ -1,13 +1,13 @@
 #include "Locations.h"
 #include "Menu.h"
 
-Location::Location(Area input) : here(input){}
+Location::Location(Area input, Player &PCIn) : here(input), PC(PCIn) {}
 
-void Location::getCommand(string input, Player &PC)
+void Location::getCommand(string input)
 {
 	if (input == "actions") {
 		if (Menu::getDisplayActions() == false)
-			displayActions(PC);
+			displayActions();
 	} else if (input == "observe") {
 		display(areaToString(here));
 		cout << '\n';
@@ -15,7 +15,7 @@ void Location::getCommand(string input, Player &PC)
 	} else if ((input == "wait until day") || (input == "wait until night"))
 		processWait(input);
 	else {
-		if (processCommand(input, PC) == ERROR) {
+		if (processCommand(input) == ERROR) {
 			displayUnknownCommand();
 		}
 	}
@@ -24,10 +24,10 @@ void Location::getCommand(string input, Player &PC)
 bool Location::IsDay = true;
 
 // Put a space before all displayed actions.
-void Location::displayActions(Player &PC)
+void Location::displayActions()
 {
 	stringstream output;
-	output << "Your possible actions are:\n observe\n" << getActions(PC) << (IsDay ? " wait until night\n" : " wait until day\n") << " menu\n save\n quit\n";
+	output << "Your possible actions are:\n observe\n" << getActions() << (IsDay ? " wait until night\n" : " wait until day\n") << " menu\n save\n quit\n";
 	display(output.str());
 }
 

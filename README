@@ -1,22 +1,10 @@
-I've finished developing the code for the game engine.  Presently, everything in the world itself, i.e. the locations and the items, are contrived situations that existed to test the code as I was developing it.  Development of the world itself will start soon.
+With the first draft of the game's engine now finished, I've started developing the game's world.
 
-The general "architecture" of the code is:
-Globals -> Utilities -> Item -> Player -> Menu -> Location -> Locations -> Game
+The general "architecture" of the code is Globals -> Utilities -> Item -> Player.  Player leads into Menu and Location.  Location leads into all of the LocationX files, which are consolidated in Locations.h, which, along with Menu, leads into Game, finishing with Main.cpp.
 
 Started on December 5th, 2012.  Many thanks to Daniel Scanlan, who figured out the cause of a bug that would have killed this project early on had he not caught it.
 
-Notes for developer
+Notes for developer:
 
 To-do:
-Change all the while-loops that have a manual break at the end into do-while-loops.
-
-Progression of items:
-Rusty Sword
-Lantern
-Bow
-Bombs
-Hero's Sword (allows defense against more deft foes)
-Grappling Hook
-[Modified] Bow (capable of attaching lantern for fire arrows)
-Crossbow (capable of shooting bomb arrows)
-Sanctified Sword (allows defense against very powerful foes)
+-Start development of RoadToElffor region.
